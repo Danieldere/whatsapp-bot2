@@ -2,6 +2,7 @@ const { Client, LocalAuth, MessageMedia, Location, Poll, Contact } = require('wh
 const fs = require('fs');
 const path = require('path');
 const qrcode = require('qrcode-terminal');
+const WebDashboard = require('./WebDashboard'); // Import web dashboard
 
 // Import feature modules
 const MediaHandler = require('./modules/MediaHandler');
@@ -26,8 +27,31 @@ class EnhancedWhatsAppBot {
                     '--disable-accelerated-2d-canvas',
                     '--no-first-run',
                     '--no-zygote',
-                    '--disable-gpu'
-                ]
+                    '--disable-gpu',
+                    '--disable-web-security',
+                    '--disable-features=VizDisplayCompositor',
+                    '--disable-blink-features=AutomationControlled',
+                    '--no-default-browser-check',
+                    '--disable-extensions',
+                    '--disable-plugins',
+                    '--disable-sync',
+                    '--disable-translate',
+                    '--hide-scrollbars',
+                    '--mute-audio',
+                    '--no-first-run',
+                    '--safebrowsing-disable-auto-update',
+                    '--ignore-certificate-errors',
+                    '--ignore-ssl-errors',
+                    '--ignore-certificate-errors-spki-list'
+                ],
+                executablePath: undefined, // Let puppeteer find Chrome automatically
+                handleSIGINT: false,
+                handleSIGTERM: false,
+                handleSIGHUP: false
+            },
+            webVersionCache: {
+                type: 'remote',
+                remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html',
             }
         });
 
@@ -51,6 +75,9 @@ class EnhancedWhatsAppBot {
         this.messageManager = new MessageManager(this);
         this.moderationManager = new ModerationManager(this);
         this.utilityManager = new UtilityManager(this);
+
+        // Initialize web dashboard
+        this.webDashboard = new WebDashboard(this);
 
         // Command categories for organized help
         this.commandCategories = {
@@ -114,7 +141,8 @@ class EnhancedWhatsAppBot {
                     '!stats': 'Bot statistics',
                     '!ping': 'Check bot status',
                     '!backup': 'Backup data',
-                    '!settings': 'Bot settings'
+                    '!settings': 'Bot settings',
+                    '!dashboard': 'Get dashboard URL'
                 }
             }
         };
@@ -123,14 +151,31 @@ class EnhancedWhatsAppBot {
     }
 
     initializeBot() {
-        // QR Code generation
+        // Error handling for client
+        this.client.on('auth_failure', (msg) => {
+            console.error('❌ Authentication failed:', msg);
+            console.log('🔄 Please delete .wwebjs_auth folder and restart');
+        });
+
+        this.client.on('loading_screen', (percent, message) => {
+            console.log(`⏳ Loading... ${percent}% - ${message}`);
+        });
+
+        // QR Code generation - now shows both terminal and web options
         this.client.on('qr', (qr) => {
             console.log('\n' + '='.repeat(60));
             console.log('🚀 ENHANCED WHATSAPP BOT v2.0');
             console.log('='.repeat(60));
-            console.log('📱 Scan this QR code with your WhatsApp:\n');
+            console.log('📱 QR Code Options:');
+            console.log('');
+            console.log('1. 🌐 WEB DASHBOARD (Recommended):');
+            console.log(`   http://localhost:${process.env.WEB_PORT || 3000}`);
+            console.log('');
+            console.log('2. 📺 Terminal QR Code:');
             qrcode.generate(qr, { small: true });
             console.log('\n' + '='.repeat(60));
+            console.log('💡 TIP: Use the web dashboard for easier scanning!');
+            console.log('='.repeat(60));
         });
 
         // Bot ready event
@@ -148,10 +193,14 @@ class EnhancedWhatsAppBot {
             await this.sendWelcomeMessage();
         });
 
-        // Message handlers
+        // Message handlers with error handling
         this.client.on('message_create', async (message) => {
-            this.stats.messagesReceived++;
-            await this.handleMessage(message);
+            try {
+                this.stats.messagesReceived++;
+                await this.handleMessage(message);
+            } catch (error) {
+                console.error('❌ Error handling message:', error);
+            }
         });
 
         // Additional event listeners
@@ -160,23 +209,73 @@ class EnhancedWhatsAppBot {
         });
 
         this.client.on('group_join', async (notification) => {
-            await this.groupManager.handleGroupJoin(notification);
+            try {
+                await this.groupManager.handleGroupJoin(notification);
+            } catch (error) {
+                console.error('❌ Error handling group join:', error);
+            }
         });
 
         this.client.on('group_leave', async (notification) => {
-            await this.groupManager.handleGroupLeave(notification);
+            try {
+                await this.groupManager.handleGroupLeave(notification);
+            } catch (error) {
+                console.error('❌ Error handling group leave:', error);
+            }
         });
 
         this.client.on('disconnected', (reason) => {
             console.log('❌ Disconnected:', reason);
             this.isReady = false;
+            
+            // Auto-reconnect after 30 seconds
+            console.log('🔄 Attempting to reconnect in 30 seconds...');
+            setTimeout(() => {
+                console.log('🔄 Reinitializing client...');
+                this.client.initialize();
+            }, 30000);
         });
 
-        this.client.initialize();
+        // Start web dashboard with error handling
+        try {
+            this.webDashboard.start();
+        } catch (error) {
+            console.error('❌ Failed to start web dashboard:', error);
+            console.log('⚠️ Bot will continue without web dashboard');
+        }
+
+        // Initialize client with retry mechanism
+        this.initializeWithRetry();
+    }
+
+    async initializeWithRetry(retries = 3) {
+        for (let i = 0; i < retries; i++) {
+            try {
+                console.log(`🔄 Initializing client (attempt ${i + 1}/${retries})...`);
+                await this.client.initialize();
+                break;
+            } catch (error) {
+                console.error(`❌ Initialization attempt ${i + 1} failed:`, error.message);
+                
+                if (i === retries - 1) {
+                    console.error('❌ All initialization attempts failed');
+                    console.log('🔧 Troubleshooting steps:');
+                    console.log('1. Delete .wwebjs_auth folder');
+                    console.log('2. Restart the application');
+                    console.log('3. Check your internet connection');
+                    console.log('4. Try updating whatsapp-web.js: npm update whatsapp-web.js');
+                    process.exit(1);
+                } else {
+                    console.log(`⏳ Waiting 10 seconds before retry...`);
+                    await new Promise(resolve => setTimeout(resolve, 10000));
+                }
+            }
+        }
     }
 
     displayWelcomeScreen() {
         const uptime = Math.floor((Date.now() - this.stats.startTime) / 1000);
+        const webPort = process.env.WEB_PORT || 3000;
         
         console.log(`
 ╔══════════════════════════════════════════════════════╗
@@ -186,10 +285,12 @@ class EnhancedWhatsAppBot {
 ║ Owner: ${this.client.info.pushname || 'Unknown'}                                    ║
 ║ Number: ${this.client.info.wid.user}                           ║
 ║ Uptime: ${uptime}s                                      ║
+║ Web Dashboard: http://localhost:${webPort}                    ║
 ╠══════════════════════════════════════════════════════╣
 ║                   📊 FEATURES                        ║
 ╠══════════════════════════════════════════════════════╣
 ║ ✅ Multi Device Support                              ║
+║ ✅ Web Dashboard with QR Code                        ║
 ║ ✅ Media Management (Send/Receive/Save)              ║
 ║ ✅ Group Management (Full Control)                   ║
 ║ ✅ Contact Management                                ║
@@ -198,31 +299,39 @@ class EnhancedWhatsAppBot {
 ║ ✅ Location & Polls                                  ║
 ║ ✅ Sticker Support                                   ║
 ╠══════════════════════════════════════════════════════╣
-║ Type !menu for main menu                             ║
-║ Type !help for command list                          ║
+║ 🌐 Access Dashboard: http://localhost:${webPort}             ║
+║ 📱 Type !menu for main menu                          ║
+║ 📚 Type !help for command list                       ║
 ╚══════════════════════════════════════════════════════╝
         `);
     }
 
     async sendWelcomeMessage() {
         try {
+            const webPort = process.env.WEB_PORT || 3000;
             const welcomeMsg = `🎉 *Enhanced WhatsApp Bot v2.0* 🎉
 
 🚀 *Welcome to your premium WhatsApp automation system!*
+
+🌐 *Web Dashboard Available:*
+http://localhost:${webPort}
 
 📋 *Quick Start:*
 • Type \`!menu\` for the main menu
 • Type \`!help\` for command categories
 • Type \`!settings\` to configure the bot
+• Type \`!dashboard\` for web dashboard link
 
 ✨ *New Features:*
-• Advanced media management
-• Complete group control
-• Professional moderation tools
-• Contact management system
-• Interactive polls & reactions
-• Location sharing
-• Sticker creation
+• 🌐 Web-based QR code scanning
+• 📊 Real-time dashboard
+• 📸 Advanced media management
+• 👥 Complete group control
+• 🛡️ Professional moderation tools
+• 👤 Contact management system
+• 📊 Interactive polls & reactions
+• 📍 Location sharing
+• 🎨 Sticker creation
 
 💡 *Need help?* Type \`!help\` anytime!
 
@@ -291,6 +400,9 @@ _Bot is now fully operational and ready to serve._`;
                     break;
                 case 'settings':
                     await this.utilityManager.showSettings(message);
+                    break;
+                case 'dashboard':
+                    await this.showDashboardInfo(message);
                     break;
 
                 // Media commands
@@ -377,6 +489,7 @@ _Bot is now fully operational and ready to serve._`;
     }
 
     async showMainMenu(message) {
+        const webPort = process.env.WEB_PORT || 3000;
         const menuText = `🤖 *Enhanced WhatsApp Bot v2.0*
 ╔══════════════════════════════╗
 ║            MAIN MENU         ║
@@ -412,10 +525,46 @@ _Bot is now fully operational and ready to serve._`;
 ├─ \`!settings\` - Configuration
 └─ \`!help\` - Detailed help
 
+🌐 *Web Dashboard*
+├─ \`!dashboard\` - Get dashboard link
+└─ Real-time monitoring available
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💡 *Quick Tip:* Type any command for instant access!`;
+💡 *Quick Tip:* Type any command for instant access!
+🌐 *Dashboard:* http://localhost:${webPort}`;
 
         await message.reply(menuText);
+    }
+
+    async showDashboardInfo(message) {
+        const webPort = process.env.WEB_PORT || 3000;
+        const dashboardMsg = `🌐 *Web Dashboard Information*
+
+📊 *Real-time Dashboard Available:*
+🔗 http://localhost:${webPort}
+
+✨ *Dashboard Features:*
+• 📱 QR code scanning interface
+• 📊 Live bot statistics
+• 🔄 Remote bot restart
+• 📈 Real-time monitoring
+• 💻 Professional UI
+• 📱 Mobile-friendly design
+
+🎯 *Access Methods:*
+• Local: http://localhost:${webPort}
+• Network: http://YOUR_SERVER_IP:${webPort}
+• Mobile: Access from any device on same network
+
+💡 *Perfect for:*
+• Remote server deployments
+• Easy QR code scanning
+• Monitoring bot performance
+• Managing multiple users
+
+🔧 *No terminal needed!* Access everything from your browser.`;
+
+        await message.reply(dashboardMsg);
     }
 
     async showHelpMenu(message, category) {
@@ -430,7 +579,8 @@ ${Object.entries(this.commandCategories).map(([key, cat]) =>
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 Example: \`!help media\` for media commands
-🔄 Type \`!menu\` to return to main menu`;
+🔄 Type \`!menu\` to return to main menu
+🌐 Type \`!dashboard\` for web interface`;
 
             await message.reply(helpText);
             return;
@@ -449,7 +599,8 @@ ${Object.entries(cat.commands).map(([cmd, desc]) =>
 ).join('\n')}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🔙 Type \`!help\` for all categories`;
+🔙 Type \`!help\` for all categories
+🌐 Dashboard available for easy access`;
 
         await message.reply(categoryHelp);
     }
@@ -458,6 +609,7 @@ ${Object.entries(cat.commands).map(([cmd, desc]) =>
         const uptime = Math.floor((Date.now() - this.stats.startTime) / 1000);
         const hours = Math.floor(uptime / 3600);
         const minutes = Math.floor((uptime % 3600) / 60);
+        const webPort = process.env.WEB_PORT || 3000;
 
         const statsText = `📊 *Bot Statistics*
 ╔══════════════════════════════╗
@@ -467,6 +619,7 @@ ${Object.entries(cat.commands).map(([cmd, desc]) =>
 🟢 *Status:* Online
 ⏱️ *Uptime:* ${hours}h ${minutes}m
 📱 *Owner:* ${this.client.info.pushname || 'Unknown'}
+🌐 *Dashboard:* http://localhost:${webPort}
 
 📈 *Activity Stats:*
 • Messages Received: ${this.stats.messagesReceived.toLocaleString()}
@@ -479,8 +632,13 @@ ${Object.entries(cat.commands).map(([cmd, desc]) =>
 🔋 *System Health:* Excellent
 💾 *Memory Usage:* ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB
 
+📊 *Web Dashboard:*
+• Real-time monitoring: ✅
+• QR code interface: ✅
+• Remote management: ✅
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🤖 Enhanced WhatsApp Bot v2.0`;
+🤖 Enhanced WhatsApp Bot v2.0 with Web Dashboard`;
 
         await message.reply(statsText);
     }
@@ -497,7 +655,8 @@ ${Object.entries(cat.commands).map(([cmd, desc]) =>
         }
         
         responseText += `📋 Type \`!menu\` for main menu\n`;
-        responseText += `📚 Type \`!help\` for all commands`;
+        responseText += `📚 Type \`!help\` for all commands\n`;
+        responseText += `🌐 Type \`!dashboard\` for web interface`;
 
         await message.reply(responseText);
     }
@@ -542,12 +701,13 @@ ${Object.entries(cat.commands).map(([cmd, desc]) =>
 }
 
 // Initialize and start the enhanced bot
-console.log('🚀 Starting Enhanced WhatsApp Bot v2.0...');
+console.log('🚀 Starting Enhanced WhatsApp Bot v2.0 with Web Dashboard...');
 const bot = new EnhancedWhatsAppBot();
 
 // Graceful shutdown
 process.on('SIGINT', () => {
     console.log('\n👋 Shutting down Enhanced WhatsApp Bot...');
+    bot.webDashboard.stop();
     bot.client.destroy();
     process.exit(0);
 });
