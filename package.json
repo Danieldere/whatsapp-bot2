@@ -1,0 +1,202 @@
+{
+  "name": "enhanced-whatsapp-bot",
+  "version": "2.0.0",
+  "description": "Professional WhatsApp automation bot with advanced features and beautiful UI",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "setup": "node setup.js",
+    "pm2": "pm2 start index.js --name enhanced-whatsapp-bot --watch --ignore-watch=\"node_modules saved-media backups logs temp\"",
+    "pm2:stop": "pm2 stop enhanced-whatsapp-bot",
+    "pm2:restart": "pm2 restart enhanced-whatsapp-bot",
+    "pm2:delete": "pm2 delete enhanced-whatsapp-bot",
+    "pm2:logs": "pm2 logs enhanced-whatsapp-bot",
+    "pm2:monit": "pm2 monit",
+    "backup": "node scripts/backup.js",
+    "restore": "node scripts/restore.js",
+    "test": "node test/test.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "clean": "rimraf saved-media/* backups/* logs/* temp/*",
+    "reset": "rimraf .wwebjs_auth && npm run clean",
+    "health": "node scripts/health-check.js",
+    "migrate": "node scripts/migrate.js",
+    "install-deps": "npm install && npm audit fix"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "automation",
+    "moderation",
+    "media",
+    "groups",
+    "contacts",
+    "professional",
+    "enhanced",
+    "messaging",
+    "management",
+    "admin",
+    "tools"
+  ],
+  "author": {
+    "name": "Your Name",
+    "email": "your.email@example.com",
+    "url": "https://github.com/yourusername"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/yourusername/enhanced-whatsapp-bot#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/enhanced-whatsapp-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/enhanced-whatsapp-bot/issues"
+  },
+  "dependencies": {
+    "whatsapp-web.js": "^1.23.0",
+    "qrcode-terminal": "^0.12.0",
+    "fs-extra": "^11.2.0",
+    "node-cron": "^3.0.3",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.6",
+    "moment": "^2.29.4",
+    "node-fetch": "^2.7.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "compression": "^1.7.4",
+    "rate-limiter-flexible": "^3.0.8",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.1",
+    "sharp": "^0.32.6",
+    "ffmpeg-static": "^5.2.0",
+    "archiver": "^6.0.1",
+    "mime-types": "^2.1.35",
+    "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "pm2": "^5.3.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.1",
+    "rimraf": "^5.0.5",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "@types/node": "^20.10.5"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
+  "preferGlobal": false,
+  "private": false,
+  "config": {
+    "unsafe-perm": true
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/yourusername"
+  },
+  "contributors": [
+    {
+      "name": "Your Name",
+      "email": "your.email@example.com",
+      "url": "https://github.com/yourusername"
+    }
+  ],
+  "files": [
+    "index.js",
+    "setup.js",
+    "modules/",
+    "config/",
+    "scripts/",
+    "README.md",
+    "LICENSE"
+  ],
+  "directories": {
+    "lib": "./modules",
+    "doc": "./docs",
+    "test": "./test"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true,
+      "es2021": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "rules": {
+      "no-console": "off",
+      "no-unused-vars": "warn"
+    }
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "testMatch": [
+      "**/test/**/*.js"
+    ]
+  },
+  "nodemonConfig": {
+    "watch": [
+      "index.js",
+      "modules/",
+      "config/"
+    ],
+    "ignore": [
+      "saved-media/",
+      "backups/",
+      "logs/",
+      "temp/",
+      ".wwebjs_auth/"
+    ],
+    "ext": "js,json",
+    "delay": "2000"
+  },
+  "pm2": {
+    "apps": [
+      {
+        "name": "enhanced-whatsapp-bot",
+        "script": "index.js",
+        "instances": 1,
+        "autorestart": true,
+        "watch": false,
+        "max_memory_restart": "512M",
+        "env": {
+          "NODE_ENV": "production"
+        },
+        "log_date_format": "YYYY-MM-DD HH:mm:ss Z",
+        "error_file": "logs/pm2-error.log",
+        "out_file": "logs/pm2-out.log",
+        "log_file": "logs/pm2-combined.log"
+      }
+    ]
+  }
+}

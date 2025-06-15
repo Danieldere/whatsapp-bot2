@@ -1,0 +1,127 @@
+{
+    "bot": {
+      "name": "Enhanced WhatsApp Bot",
+      "version": "2.0.0",
+      "description": "Professional WhatsApp automation bot with advanced features",
+      "timezone": "UTC",
+      "language": "en",
+      "debugMode": false
+    },
+    "features": {
+      "autoSaveMedia": true,
+      "welcomeMessages": true,
+      "autoModeration": true,
+      "linkProtection": true,
+      "spamDetection": true,
+      "profanityFilter": false,
+      "mentionNotifications": true,
+      "commandLogging": true,
+      "mediaPreview": true,
+      "stickerCreation": true
+    },
+    "moderation": {
+      "maxWarnings": 3,
+      "warningTimeout": 86400000,
+      "muteTimeout": 60000,
+      "maxMentions": 5,
+      "maxMessagesPerMinute": 10,
+      "linkWhitelist": [
+        "youtube.com",
+        "youtu.be",
+        "github.com",
+        "wikipedia.org"
+      ],
+      "autoDeleteLinks": true,
+      "autoDeleteSpam": true,
+      "profanityWords": [
+        "badword1",
+        "badword2",
+        "badword3"
+      ]
+    },
+    "media": {
+      "autoSave": true,
+      "maxFileSize": 16777216,
+      "allowedTypes": ["image", "video", "audio", "document"],
+      "compressionEnabled": false,
+      "storageLimit": 1073741824,
+      "autoCleanup": true,
+      "cleanupDays": 30
+    },
+    "groups": {
+      "autoWelcome": true,
+      "welcomeDelay": 2000,
+      "autoGoodbye": true,
+      "autoPromoteOwner": false,
+      "maxParticipants": 512,
+      "requireApproval": false,
+      "antiRaid": true
+    },
+    "contacts": {
+      "autoSaveProfiles": false,
+      "cacheProfiles": true,
+      "cacheExpiry": 3600000,
+      "autoBlock": false,
+      "blockSpammers": true,
+      "maxBlockedContacts": 1000
+    },
+    "messages": {
+      "replyDelay": 1000,
+      "typingIndicator": true,
+      "readReceipts": true,
+      "formatMessages": true,
+      "enableMarkdown": true,
+      "maxMessageLength": 4096
+    },
+    "backup": {
+      "autoBackup": true,
+      "backupInterval": 86400000,
+      "maxBackups": 7,
+      "backupMedia": false,
+      "compressBackups": true,
+      "backupLocation": "./backups/"
+    },
+    "notifications": {
+      "commandUsage": true,
+      "errorAlerts": true,
+      "systemUpdates": true,
+      "dailyReports": false,
+      "ownerNotifications": true
+    },
+    "security": {
+      "ownerOnly": [
+        "settings",
+        "backup",
+        "restore",
+        "shutdown",
+        "restart"
+      ],
+      "adminOnly": [
+        "warn",
+        "mute",
+        "delete",
+        "promote",
+        "demote",
+        "remove"
+      ],
+      "rateLimiting": true,
+      "maxCommandsPerMinute": 20,
+      "sessionTimeout": 3600000
+    },
+    "performance": {
+      "maxMemoryUsage": 512,
+      "gcInterval": 300000,
+      "cacheSize": 1000,
+      "requestTimeout": 30000,
+      "retryAttempts": 3,
+      "concurrentProcesses": 5
+    },
+    "logging": {
+      "level": "info",
+      "maxLogSize": 10485760,
+      "maxLogFiles": 5,
+      "logCommands": true,
+      "logErrors": true,
+      "logMedia": false
+    }
+  }

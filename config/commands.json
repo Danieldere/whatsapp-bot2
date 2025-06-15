@@ -1,0 +1,431 @@
+{
+    "categories": {
+      "navigation": {
+        "title": "🏠 Navigation",
+        "description": "Main navigation and help commands",
+        "emoji": "🏠",
+        "priority": 1
+      },
+      "media": {
+        "title": "📸 Media Management",
+        "description": "Save, send, and manage media files",
+        "emoji": "📸",
+        "priority": 2
+      },
+      "groups": {
+        "title": "👥 Group Management",
+        "description": "Complete group administration tools",
+        "emoji": "👥",
+        "priority": 3
+      },
+      "contacts": {
+        "title": "👤 Contact Management",
+        "description": "Manage contacts and profiles",
+        "emoji": "👤",
+        "priority": 4
+      },
+      "messages": {
+        "title": "💬 Message Features",
+        "description": "Advanced messaging capabilities",
+        "emoji": "💬",
+        "priority": 5
+      },
+      "moderation": {
+        "title": "🛡️ Moderation",
+        "description": "Keep your chats safe and organized",
+        "emoji": "🛡️",
+        "priority": 6
+      },
+      "utility": {
+        "title": "🔧 Utilities",
+        "description": "Bot configuration and system tools",
+        "emoji": "🔧",
+        "priority": 7
+      }
+    },
+    "commands": {
+      "menu": {
+        "category": "navigation",
+        "aliases": ["main", "home"],
+        "description": "Show main menu with all features",
+        "usage": "!menu",
+        "examples": ["!menu"],
+        "permissions": ["user"],
+        "cooldown": 3000,
+        "enabled": true
+      },
+      "help": {
+        "category": "navigation",
+        "aliases": ["h", "commands"],
+        "description": "Show help for commands and categories",
+        "usage": "!help [category]",
+        "examples": ["!help", "!help media", "!help groups"],
+        "permissions": ["user"],
+        "cooldown": 2000,
+        "enabled": true
+      },
+      "ping": {
+        "category": "utility",
+        "aliases": ["status", "online"],
+        "description": "Check bot status and response time",
+        "usage": "!ping",
+        "examples": ["!ping"],
+        "permissions": ["user"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "stats": {
+        "category": "utility",
+        "aliases": ["statistics", "info"],
+        "description": "Show detailed bot statistics",
+        "usage": "!stats",
+        "examples": ["!stats"],
+        "permissions": ["user"],
+        "cooldown": 10000,
+        "enabled": true
+      },
+      "media": {
+        "category": "media",
+        "aliases": ["m"],
+        "description": "Open media management panel",
+        "usage": "!media",
+        "examples": ["!media"],
+        "permissions": ["user"],
+        "cooldown": 2000,
+        "enabled": true
+      },
+      "save": {
+        "category": "media",
+        "aliases": ["download", "dl"],
+        "description": "Save recent media from chat",
+        "usage": "!save [all|@user]",
+        "examples": ["!save", "!save all", "!save @john"],
+        "permissions": ["user"],
+        "cooldown": 3000,
+        "enabled": true
+      },
+      "send": {
+        "category": "media",
+        "aliases": ["share"],
+        "description": "Send saved media to contact or group",
+        "usage": "!send <type> <target>",
+        "examples": ["!send image @user", "!send video @group", "!send list"],
+        "permissions": ["user"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "sticker": {
+        "category": "media",
+        "aliases": ["stick", "s"],
+        "description": "Convert image to sticker",
+        "usage": "!sticker [text]",
+        "examples": ["!sticker", "!sticker Hello World"],
+        "permissions": ["user"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "group": {
+        "category": "groups",
+        "aliases": ["g"],
+        "description": "Open group management panel",
+        "usage": "!group",
+        "examples": ["!group"],
+        "permissions": ["admin"],
+        "cooldown": 2000,
+        "enabled": true
+      },
+      "create": {
+        "category": "groups",
+        "aliases": ["new", "make"],
+        "description": "Create new WhatsApp group",
+        "usage": "!create \"Name\" @user1 @user2",
+        "examples": ["!create \"My Group\" @john @jane"],
+        "permissions": ["owner"],
+        "cooldown": 10000,
+        "enabled": true
+      },
+      "add": {
+        "category": "groups",
+        "aliases": ["invite"],
+        "description": "Add participants to group",
+        "usage": "!add @user1 @user2",
+        "examples": ["!add @john", "!add @john @jane"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "remove": {
+        "category": "groups",
+        "aliases": ["kick", "rm"],
+        "description": "Remove participants from group",
+        "usage": "!remove @user1 @user2",
+        "examples": ["!remove @spammer", "!remove @user1 @user2"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "promote": {
+        "category": "groups",
+        "aliases": ["admin", "mod"],
+        "description": "Promote users to admin",
+        "usage": "!promote @user1 @user2",
+        "examples": ["!promote @john", "!promote @john @jane"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "demote": {
+        "category": "groups",
+        "aliases": ["unadmin"],
+        "description": "Demote admins to regular users",
+        "usage": "!demote @user1 @user2",
+        "examples": ["!demote @john", "!demote @john @jane"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "info": {
+        "category": "groups",
+        "aliases": ["details", "about"],
+        "description": "Get detailed group information",
+        "usage": "!info",
+        "examples": ["!info"],
+        "permissions": ["user"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "link": {
+        "category": "groups",
+        "aliases": ["invite-link", "url"],
+        "description": "Get or manage group invite link",
+        "usage": "!link [revoke|new|disable]",
+        "examples": ["!link", "!link revoke", "!link new"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "contact": {
+        "category": "contacts",
+        "aliases": ["c"],
+        "description": "Open contact management panel",
+        "usage": "!contact",
+        "examples": ["!contact"],
+        "permissions": ["user"],
+        "cooldown": 2000,
+        "enabled": true
+      },
+      "block": {
+        "category": "contacts",
+        "aliases": ["ban"],
+        "description": "Block contacts",
+        "usage": "!block @user [list|check @user]",
+        "examples": ["!block @spammer", "!block list", "!block check @user"],
+        "permissions": ["owner"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "unblock": {
+        "category": "contacts",
+        "aliases": ["unban"],
+        "description": "Unblock contacts",
+        "usage": "!unblock @user1 @user2",
+        "examples": ["!unblock @user", "!unblock @user1 @user2"],
+        "permissions": ["owner"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "profile": {
+        "category": "contacts",
+        "aliases": ["p", "pic"],
+        "description": "Get profile information and picture",
+        "usage": "!profile [@user] [pic|about|save]",
+        "examples": ["!profile", "!profile @john", "!profile pic @user"],
+        "permissions": ["user"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "status": {
+        "category": "contacts",
+        "aliases": ["setstatus", "about"],
+        "description": "Set or view status message",
+        "usage": "!status <set|emoji|clear|view> [message]",
+        "examples": ["!status set \"Busy\"", "!status emoji 😴", "!status view"],
+        "permissions": ["owner"],
+        "cooldown": 10000,
+        "enabled": true
+      },
+      "reply": {
+        "category": "messages",
+        "aliases": ["r"],
+        "description": "Reply to quoted message",
+        "usage": "!reply <message>",
+        "examples": ["!reply Thanks for the info!"],
+        "permissions": ["user"],
+        "cooldown": 2000,
+        "enabled": true
+      },
+      "mention": {
+        "category": "messages",
+        "aliases": ["tag", "@"],
+        "description": "Mention users with custom message",
+        "usage": "!mention @user1 @user2 <message>",
+        "examples": ["!mention @john @jane Meeting at 3pm"],
+        "permissions": ["user"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "react": {
+        "category": "messages",
+        "aliases": ["emoji"],
+        "description": "React to quoted message with emoji",
+        "usage": "!react <emoji>",
+        "examples": ["!react 😂", "!react ❤️", "!react 👍"],
+        "permissions": ["user"],
+        "cooldown": 2000,
+        "enabled": true
+      },
+      "poll": {
+        "category": "messages",
+        "aliases": ["vote", "survey"],
+        "description": "Create interactive poll",
+        "usage": "!poll \"Question?\" \"Option1\" \"Option2\" ...",
+        "examples": ["!poll \"Favorite color?\" \"Red\" \"Blue\" \"Green\""],
+        "permissions": ["user"],
+        "cooldown": 10000,
+        "enabled": true
+      },
+      "location": {
+        "category": "messages",
+        "aliases": ["loc", "gps"],
+        "description": "Send location coordinates",
+        "usage": "!location <lat> <lng> [name]",
+        "examples": ["!location 40.7128 -74.0060 \"New York\""],
+        "permissions": ["user"],
+        "cooldown": 10000,
+        "enabled": true
+      },
+      "mod": {
+        "category": "moderation",
+        "aliases": ["moderation"],
+        "description": "Open moderation control panel",
+        "usage": "!mod",
+        "examples": ["!mod"],
+        "permissions": ["admin"],
+        "cooldown": 2000,
+        "enabled": true
+      },
+      "warn": {
+        "category": "moderation",
+        "aliases": ["warning"],
+        "description": "Warn users or manage warnings",
+        "usage": "!warn <@user|list|clear @user|history @user> [reason]",
+        "examples": ["!warn @spammer Stop spamming", "!warn list", "!warn clear @user"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "mute": {
+        "category": "moderation",
+        "aliases": ["silence"],
+        "description": "Mute chat or specific users",
+        "usage": "!mute [@user] [duration]",
+        "examples": ["!mute", "!mute @user", "!mute list"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "unmute": {
+        "category": "moderation",
+        "aliases": ["unsilence"],
+        "description": "Unmute chat or users",
+        "usage": "!unmute [@user]",
+        "examples": ["!unmute", "!unmute @user"],
+        "permissions": ["admin"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "delete": {
+        "category": "moderation",
+        "aliases": ["del", "remove"],
+        "description": "Delete messages",
+        "usage": "!delete [last <#>|all @user|links|media]",
+        "examples": ["!delete", "!delete last 5", "!delete all @spammer"],
+        "permissions": ["admin"],
+        "cooldown": 3000,
+        "enabled": true
+      },
+      "settings": {
+        "category": "utility",
+        "aliases": ["config", "setup"],
+        "description": "Bot settings and configuration",
+        "usage": "!settings [category]",
+        "examples": ["!settings", "!settings bot", "!settings auto"],
+        "permissions": ["owner"],
+        "cooldown": 5000,
+        "enabled": true
+      },
+      "backup": {
+        "category": "utility",
+        "aliases": ["save-data"],
+        "description": "Create or restore data backup",
+        "usage": "!backup <create|restore|list>",
+        "examples": ["!backup create", "!backup restore", "!backup list"],
+        "permissions": ["owner"],
+        "cooldown": 30000,
+        "enabled": true
+      },
+      "restart": {
+        "category": "utility",
+        "aliases": ["reboot"],
+        "description": "Restart the bot",
+        "usage": "!restart",
+        "examples": ["!restart"],
+        "permissions": ["owner"],
+        "cooldown": 60000,
+        "enabled": false
+      },
+      "shutdown": {
+        "category": "utility",
+        "aliases": ["stop", "exit"],
+        "description": "Shutdown the bot",
+        "usage": "!shutdown",
+        "examples": ["!shutdown"],
+        "permissions": ["owner"],
+        "cooldown": 60000,
+        "enabled": false
+      }
+    },
+    "permissions": {
+      "user": {
+        "level": 1,
+        "description": "Basic user permissions"
+      },
+      "admin": {
+        "level": 2,
+        "description": "Group admin permissions"
+      },
+      "owner": {
+        "level": 3,
+        "description": "Bot owner permissions"
+      }
+    },
+    "cooldowns": {
+      "global": 1000,
+      "perUser": 2000,
+      "perCommand": 3000
+    },
+    "limits": {
+      "maxCommandLength": 500,
+      "maxArguments": 20,
+      "maxMentions": 10,
+      "dailyCommandLimit": 1000,
+      "hourlyCommandLimit": 100
+    },
+    "features": {
+      "autoComplete": true,
+      "suggestionSystem": true,
+      "commandLogging": true,
+      "usageAnalytics": true,
+      "errorReporting": true
+    }
+  }

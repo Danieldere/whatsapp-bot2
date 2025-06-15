@@ -1,0 +1,226 @@
+{
+    "welcome": {
+      "default": {
+        "title": "🎉 Welcome to the Group!",
+        "message": "Welcome {user}! 👋\n\nWe're excited to have you here. Please take a moment to:\n📋 Read our group rules\n🤝 Introduce yourself\n💬 Feel free to ask questions\n\n🤖 Type `!help` for bot commands\n📜 Type `!rules` for group rules",
+        "variables": ["user", "group", "count"],
+        "enabled": true
+      },
+      "casual": {
+        "title": "👋 Hey there!",
+        "message": "Hey {user}! Welcome to {group}! 🎊\n\nHope you enjoy your stay here. Don't be shy, jump right into the conversation! 😊",
+        "variables": ["user", "group"],
+        "enabled": false
+      },
+      "professional": {
+        "title": "Welcome to Our Community",
+        "message": "Dear {user},\n\nWelcome to {group}. We're pleased to have you join our community.\n\nPlease familiarize yourself with our guidelines and don't hesitate to participate in discussions.\n\nBest regards,\nThe Admin Team",
+        "variables": ["user", "group"],
+        "enabled": false
+      }
+    },
+    "goodbye": {
+      "default": {
+        "title": "👋 Goodbye!",
+        "message": "Goodbye {user}! 👋\n\nThanks for being part of {group}. You're always welcome back!\n\nWish you all the best! 🌟",
+        "variables": ["user", "group"],
+        "enabled": true
+      },
+      "simple": {
+        "title": "See you later!",
+        "message": "{user} has left the group. Take care! 👋",
+        "variables": ["user"],
+        "enabled": false
+      }
+    },
+    "warnings": {
+      "first": {
+        "title": "⚠️ First Warning",
+        "message": "⚠️ **FIRST WARNING**\n\n👤 **User:** {user}\n📝 **Reason:** {reason}\n👮 **Warned by:** {admin}\n📅 **Date:** {date}\n\n🔔 **Note:** Please follow group rules to avoid further warnings.",
+        "variables": ["user", "reason", "admin", "date"],
+        "enabled": true
+      },
+      "second": {
+        "title": "⚠️ Second Warning",
+        "message": "⚠️ **SECOND WARNING**\n\n👤 **User:** {user}\n📝 **Reason:** {reason}\n👮 **Warned by:** {admin}\n📅 **Date:** {date}\n\n🚨 **Caution:** This is your second warning. Next violation may result in temporary mute.",
+        "variables": ["user", "reason", "admin", "date"],
+        "enabled": true
+      },
+      "final": {
+        "title": "🚨 Final Warning",
+        "message": "🚨 **FINAL WARNING**\n\n👤 **User:** {user}\n📝 **Reason:** {reason}\n👮 **Warned by:** {admin}\n📅 **Date:** {date}\n\n❗ **IMPORTANT:** This is your final warning. Any further violations will result in removal from the group.",
+        "variables": ["user", "reason", "admin", "date"],
+        "enabled": true
+      }
+    },
+    "moderation": {
+      "linkDeleted": {
+        "title": "🔗 Link Removed",
+        "message": "🔗 **LINK DETECTED**\n\n⚠️ {user}, links are not allowed in this group.\n🗑️ Your message has been deleted.\n📝 Repeated violations will result in warnings.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nPlease follow group rules.",
+        "variables": ["user"],
+        "enabled": true
+      },
+      "spamDetected": {
+        "title": "🚫 Spam Detected",
+        "message": "🚫 **SPAM DETECTED**\n\n⚠️ {user}, spam messages are not allowed.\n🗑️ Your message has been deleted.\n⏰ You are temporarily muted for {duration} minutes.\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nPlease slow down your messaging.",
+        "variables": ["user", "duration"],
+        "enabled": true
+      },
+      "userMuted": {
+        "title": "🔇 User Muted",
+        "message": "🔇 **USER MUTED**\n\n👤 **User:** {user}\n📝 **Reason:** {reason}\n⏰ **Duration:** {duration}\n👮 **Muted by:** {admin}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nUser cannot send messages during mute period.",
+        "variables": ["user", "reason", "duration", "admin"],
+        "enabled": true
+      },
+      "chatMuted": {
+        "title": "🔇 Chat Muted",
+        "message": "🔇 **CHAT MUTED**\n\n📵 This chat has been muted by admin.\n⏰ Duration: {duration}\n🔊 Use `!unmute` to restore chat\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nOnly admins can send messages while muted.",
+        "variables": ["duration"],
+        "enabled": true
+      }
+    },
+    "media": {
+      "mediaSaved": {
+        "title": "✅ Media Saved",
+        "message": "✅ **Media Saved Successfully!**\n\n📁 **File:** {filename}\n👤 **From:** {sender}\n📱 **Type:** {type}\n💾 **Size:** {size}\n📅 **Date:** {date}\n\n🗂️ **Location:** saved-media/{filename}",
+        "variables": ["filename", "sender", "type", "size", "date"],
+        "enabled": true
+      },
+      "stickerCreated": {
+        "title": "🎨 Sticker Created",
+        "message": "🎨 **Sticker Created Successfully!**\n\n✅ Your image has been converted to a sticker\n📤 Sticker sent to chat\n💡 **Tip:** Reply to any image with `!sticker` to convert it",
+        "variables": [],
+        "enabled": true
+      },
+      "mediaError": {
+        "title": "❌ Media Error",
+        "message": "❌ **Failed to Process Media**\n\n📋 **Possible reasons:**\n├─ File too large (max {maxSize})\n├─ Unsupported format\n├─ Corrupted file\n└─ Network error\n\n💡 Please try again with a different file.",
+        "variables": ["maxSize"],
+        "enabled": true
+      }
+    },
+    "groups": {
+      "groupCreated": {
+        "title": "✅ Group Created",
+        "message": "✅ **Group Created Successfully!**\n\n👥 **Group:** {groupName}\n🆔 **ID:** {groupId}\n👤 **Participants:** {participantCount}\n🔗 **Invite Link:** {inviteLink}\n\n🎉 Group is ready to use!",
+        "variables": ["groupName", "groupId", "participantCount", "inviteLink"],
+        "enabled": true
+      },
+      "userAdded": {
+        "title": "👤 User Added",
+        "message": "👤 **Participants Added**\n\n✅ Successfully added: {successCount}\n❌ Failed to add: {failedCount}\n\n{results}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n👥 Total members: {totalMembers}",
+        "variables": ["successCount", "failedCount", "results", "totalMembers"],
+        "enabled": true
+      },
+      "userPromoted": {
+        "title": "👑 User Promoted",
+        "message": "👑 **Admin Promotion**\n\n👤 **User:** {user}\n📈 **Promoted to:** Admin\n👮 **Promoted by:** {admin}\n📅 **Date:** {date}\n\n🎉 Congratulations on your new role!",
+        "variables": ["user", "admin", "date"],
+        "enabled": true
+      }
+    },
+    "system": {
+      "botStarted": {
+        "title": "🚀 Bot Started",
+        "message": "🚀 **Enhanced WhatsApp Bot v2.0**\n\n✅ Bot is now online and ready!\n⏰ Started: {startTime}\n👤 Owner: {owner}\n\n📋 Type `!menu` for main menu\n📚 Type `!help` for commands",
+        "variables": ["startTime", "owner"],
+        "enabled": true
+      },
+      "maintenance": {
+        "title": "🔧 Maintenance Mode",
+        "message": "🔧 **Maintenance Mode**\n\nThe bot is currently under maintenance.\n⏰ Expected duration: {duration}\n💬 Limited functionality available\n\nWe apologize for any inconvenience.",
+        "variables": ["duration"],
+        "enabled": false
+      },
+      "updateAvailable": {
+        "title": "🔄 Update Available",
+        "message": "🔄 **Update Available**\n\n📦 New version: {version}\n📋 Features: {features}\n🔗 Download: {downloadLink}\n\n💡 Please update for latest features and security fixes.",
+        "variables": ["version", "features", "downloadLink"],
+        "enabled": true
+      }
+    },
+    "errors": {
+      "permissionDenied": {
+        "title": "🚫 Permission Denied",
+        "message": "🚫 **Access Denied**\n\n❌ You don't have permission to use this command.\n🔐 Required level: {requiredLevel}\n👤 Your level: {userLevel}\n\n💡 Contact an admin for assistance.",
+        "variables": ["requiredLevel", "userLevel"],
+        "enabled": true
+      },
+      "commandNotFound": {
+        "title": "❓ Command Not Found",
+        "message": "❓ **Unknown Command:** `{command}`\n\n💡 **Did you mean?**\n{suggestions}\n\n📋 Type `!menu` for main menu\n📚 Type `!help` for all commands",
+        "variables": ["command", "suggestions"],
+        "enabled": true
+      },
+      "rateLimited": {
+        "title": "⏰ Rate Limited",
+        "message": "⏰ **Rate Limited**\n\n🚫 You're sending commands too quickly.\n⏳ Please wait {waitTime} seconds before trying again.\n\n💡 This helps prevent spam and keeps the bot responsive.",
+        "variables": ["waitTime"],
+        "enabled": true
+      },
+      "generalError": {
+        "title": "❌ Error Occurred",
+        "message": "❌ **An Error Occurred**\n\n🔧 Something went wrong while processing your request.\n📝 Error ID: {errorId}\n⏰ Time: {time}\n\n💡 Please try again later or contact support.",
+        "variables": ["errorId", "time"],
+        "enabled": true
+      }
+    },
+    "notifications": {
+      "dailyReport": {
+        "title": "📊 Daily Report",
+        "message": "📊 **Daily Activity Report**\n📅 {date}\n\n📈 **Statistics:**\n├─ Messages processed: {messages}\n├─ Commands executed: {commands}\n├─ Media saved: {mediaSaved}\n├─ Groups managed: {groups}\n└─ Warnings issued: {warnings}\n\n🎯 **Top Commands:**\n{topCommands}\n\n💾 **System Health:** {systemHealth}",
+        "variables": ["date", "messages", "commands", "mediaSaved", "groups", "warnings", "topCommands", "systemHealth"],
+        "enabled": false
+      },
+      "weeklyReport": {
+        "title": "📊 Weekly Summary",
+        "message": "📊 **Weekly Activity Summary**\n📅 {weekRange}\n\n📈 **Totals:**\n├─ Messages: {totalMessages}\n├─ Active users: {activeUsers}\n├─ Commands used: {totalCommands}\n├─ Media saved: {totalMedia}\n└─ New members: {newMembers}\n\n🏆 **Most Active:**\n├─ User: {topUser}\n├─ Group: {topGroup}\n└─ Command: {topCommand}\n\n📊 **Trends:** {trends}",
+        "variables": ["weekRange", "totalMessages", "activeUsers", "totalCommands", "totalMedia", "newMembers", "topUser", "topGroup", "topCommand", "trends"],
+        "enabled": false
+      }
+    },
+    "fun": {
+      "randomFacts": [
+        "🧠 Did you know? The human brain has about 86 billion neurons!",
+        "🌍 Fun fact: There are more possible games of chess than atoms in the observable universe!",
+        "🐙 Octopuses have three hearts and blue blood!",
+        "🍯 Honey never spoils. Archaeologists have found edible honey in ancient Egyptian tombs!",
+        "🌙 A day on Venus is longer than its year!"
+      ],
+      "jokes": [
+        "Why don't scientists trust atoms? Because they make up everything! 😄",
+        "Why did the bot go to therapy? It had too many bugs! 🤖",
+        "What do you call a WhatsApp message that's always late? A delayed reaction! 📱",
+        "Why don't keyboards ever get tired? They have plenty of space! ⌨️"
+      ],
+      "motivational": [
+        "💪 You're doing great! Keep up the excellent work!",
+        "🌟 Every expert was once a beginner. Keep learning!",
+        "🚀 Success is not final, failure is not fatal: it is the courage to continue that counts!",
+        "💎 You are stronger than you think and more capable than you imagine!",
+        "🌈 The best time to plant a tree was 20 years ago. The second best time is now!"
+      ]
+    },
+    "variables": {
+      "user": "User name or mention",
+      "group": "Group name",
+      "admin": "Admin name",
+      "date": "Current date and time",
+      "time": "Current time",
+      "count": "Member count",
+      "reason": "Reason for action",
+      "duration": "Time duration",
+      "filename": "File name",
+      "size": "File size",
+      "type": "Media type",
+      "sender": "Message sender"
+    },
+    "settings": {
+      "defaultLanguage": "en",
+      "useEmojis": true,
+      "formatMessages": true,
+      "includeTimestamp": true,
+      "mentionUsers": true,
+      "enableVariables": true
+    }
+  }
